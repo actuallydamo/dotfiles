@@ -1,0 +1,31 @@
+[user]
+  name = Damien Kingsley
+  email = actuallydamo@gmail.com
+  signingkey = 0xDCE8FAD9827C3770
+[core]
+  editor = subl -n -w
+  excludesfile = ~/.gitignore_global
+[commit]
+  template = ~/.commit-template
+  gpgsign = true
+  verbose = true
+[core]
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
+[alias]
+  hard-pull = "!git fetch origin $(git rev-parse --abbrev-ref HEAD) && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  l = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%Cred\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --no-merges
+  lb = l origin/HEAD..HEAD
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true

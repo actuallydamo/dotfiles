@@ -40,3 +40,6 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 sudo apt update && sudo apt install -y --no-install-recommends yarn
 
 git lfs install
+
+rm ~/.gitconfig
+ln -s ~/.dotfiles/gitconfig ~/.gitconfig
