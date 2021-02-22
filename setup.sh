@@ -8,7 +8,7 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install ./google-chrome-stable_current_amd64.deb
 
 # NVM
-NVM_VERSION=`git ls-remote https://github.com/nvm-sh/nvm | grep refs/tags | grep -oE "v[0-9]+\.[0-9][0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
+NVM_VERSION=`git ls-remote https://github.com/nvm-sh/nvm | grep refs/tags | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
 
 # Docker
