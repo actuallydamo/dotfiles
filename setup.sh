@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prerequisites
-sudo apt update && sudo apt install -y libmysqlclient-dev libpq-dev wkhtmltopdf redis-tools make cmake git ruby-dev
+sudo apt update && sudo apt install -y libmysqlclient-dev libpq-dev wkhtmltopdf redis-tools make cmake git ruby-dev pv
 
 # Chrome Install
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
