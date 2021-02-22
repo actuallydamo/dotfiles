@@ -66,5 +66,10 @@ rm awscliv2.zip
 sudo ./aws/install
 rm -rf ./aws
 
+# VS Code Install
+wget https://update.code.visualstudio.com/latest/linux-deb-x64/stable
+sudo apt install -y ./code_*_amd64.deb
+rm ./code_*_amd64.deb
+
 rm ~/.gitconfig
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
