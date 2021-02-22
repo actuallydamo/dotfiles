@@ -5,7 +5,7 @@ sudo apt update && sudo apt install -y libmysqlclient-dev libpq-dev wkhtmltopdf 
 
 # Chrome Install
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install ./google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
 # NVM
 NVM_VERSION=`git ls-remote https://github.com/nvm-sh/nvm | grep refs/tags | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
