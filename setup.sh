@@ -4,6 +4,7 @@
 sudo apt update
 sudo apt install -y \
   cmake \
+  direnv \
   git \
   git-lfs \
   libmysqlclient-dev \
