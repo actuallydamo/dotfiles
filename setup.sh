@@ -7,6 +7,7 @@ sudo apt install -y \
   direnv \
   git \
   git-lfs \
+  libicu-dev \
   libmysqlclient-dev \
   libpq-dev \
   make \
