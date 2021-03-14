@@ -33,6 +33,9 @@ install_deb_from_url () {
   rm -f "$TEMP_DEB"
 }
 
+# Grab my GPG Public Key
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys DCE8FAD9827C3770
+
 # Starship Install
 sudo curl -fsSL https://starship.rs/install.sh | bash -s -- -f
 
