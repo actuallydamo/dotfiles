@@ -45,6 +45,13 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/p
 rm ~/.zshrc
 ln -s ~/.dotfiles/zshrc ~/.zshrc
 
+# Slack Install
+wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
+| tr "\t\r\n'" '   "' \
+| grep -i -o '<a[^>]\+href[ ]*=[ \t]*"\(ht\|f\)tps\?:[^"]\+"' \
+| sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
+| grep 'slack-desktop' \
+| install_deb_from_url "${SLACK_URL}"
 
 # Chrome Install
 install_deb_from_url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
