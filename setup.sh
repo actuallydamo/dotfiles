@@ -17,7 +17,8 @@ sudo apt install -y \
   redis-tools \
   ruby-dev \
   scdaemon \
-  wkhtmltopdf
+  wkhtmltopdf \
+  zsh
 
 # Get version of latest release of a GitHub repository
 github_release () {
@@ -30,6 +31,20 @@ install_deb_from_url () {
   sudo dpkg -i "$TEMP_DEB"
   rm -f "$TEMP_DEB"
 }
+
+# Starship Install
+sudo curl -fsSL https://starship.rs/install.sh | bash -s -- -f
+
+# oh-my-zsh Install
+curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+
+# zsh-autosuggestions Install
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+# zsh config
+rm ~/.zshrc
+ln -s ~/.dotfiles/zshrc ~/.zshrc
+
 
 # Chrome Install
 install_deb_from_url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
@@ -65,8 +80,6 @@ sudo sh -c "curl -L https://raw.githubusercontent.com/docker/compose/${COMPOSE_V
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt update && sudo apt install -y --no-install-recommends yarn
-
-sudo curl -fsSL https://starship.rs/install.sh | bash
 
 git lfs install
 
