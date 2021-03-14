@@ -80,14 +80,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
    $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') stable"
 sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-# Docker Rootless
-sudo apt install -y uidmap
-curl -fsSL https://get.docker.com/rootless | sh
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
-systemctl --user start docker
-systemctl --user enable docker
-sudo loginctl enable-linger $(whoami)
-
 # Docker Compose
 COMPOSE_VERSION=$(github_release docker/compose)
 sudo curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
