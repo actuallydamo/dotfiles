@@ -11,6 +11,7 @@ sudo apt install -y \
   libmysqlclient-dev \
   libpq-dev \
   make \
+  mariadb-client \
   pv \
   redis-tools \
   ruby-dev \
