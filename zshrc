@@ -37,6 +37,7 @@ eval "$(starship init zsh)"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/bit bit
 
+export DIRENV_LOG_FORMAT=
 eval "$(direnv hook zsh)"
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
