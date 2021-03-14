@@ -7,6 +7,7 @@ sudo apt install -y \
   direnv \
   git \
   git-lfs \
+  jq \
   libicu-dev \
   libmysqlclient-dev \
   libpq-dev \
@@ -18,12 +19,17 @@ sudo apt install -y \
   scdaemon \
   wkhtmltopdf
 
+# Get version of latest release of a GitHub repository
+github_release () {
+  curl -s "https://api.github.com/repos/$1/releases/latest" | jq -r '.tag_name'
+}
+
 # Chrome Install
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
 # NVM
-NVM_VERSION=`git ls-remote https://github.com/nvm-sh/nvm | grep refs/tags | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
+NVM_VERSION=$(github_release nvm-sh/nvm)
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
 
 # Docker
@@ -44,7 +50,7 @@ systemctl --user enable docker
 sudo loginctl enable-linger $(whoami)
 
 # Docker Compose
-COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tags | grep -oE "[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
+COMPOSE_VERSION=$(github_release docker/compose)
 sudo curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo sh -c "curl -L https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose"
