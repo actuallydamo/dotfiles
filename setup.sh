@@ -64,15 +64,15 @@ sudo curl -fsSL https://starship.rs/install.sh | bash
 
 git lfs install
 
-CHRUBY_VERSION=`git ls-remote https://github.com/postmodern/chruby | grep refs/tags | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
-wget -O "chruby-${CHRUBY_VERSION}.tar.gz" "https://github.com/postmodern/chruby/archive/${CHRUBY_VERSION}.tar.gz"
+CHRUBY_VERSION=`git ls-remote https://github.com/postmodern/chruby | grep refs/tags | grep -oE "[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
+wget -O "chruby-${CHRUBY_VERSION}.tar.gz" "https://github.com/postmodern/chruby/archive/v${CHRUBY_VERSION}.tar.gz"
 tar -xzvf "chruby-${CHRUBY_VERSION}.tar.gz"
 cd "chruby-${CHRUBY_VERSION}/"
 sudo make install
 cd ..
 
-RUBY_INSTALL_VERSION=`git ls-remote https://github.com/postmodern/ruby-install | grep refs/tags | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
-wget -O "ruby-install-${RUBY_INSTALL_VERSION}.tar.gz" "https://github.com/postmodern/ruby-install/archive/${RUBY_INSTALL_VERSION}.tar.gz"
+RUBY_INSTALL_VERSION=`git ls-remote https://github.com/postmodern/ruby-install | grep refs/tags | grep -oE "[0-9]+\.[0-9]+\.[0-9]+$" | sort --version-sort | tail -n 1`
+wget -O "ruby-install-${RUBY_INSTALL_VERSION}.tar.gz" "https://github.com/postmodern/ruby-install/archive/v${RUBY_INSTALL_VERSION}.tar.gz"
 tar -xzvf "ruby-install-${RUBY_INSTALL_VERSION}.tar.gz"
 cd "ruby-install-${RUBY_INSTALL_VERSION}/"
 sudo make install
