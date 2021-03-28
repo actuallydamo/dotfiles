@@ -6,6 +6,7 @@ sudo apt update
 sudo apt install -y \
   cmake \
   direnv \
+  fzf \
   git \
   git-lfs \
   jq \
