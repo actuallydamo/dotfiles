@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# Terraform repo setup
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+
 # Prerequisites
 sudo apt update
 sudo apt install -y \
@@ -19,6 +23,7 @@ sudo apt install -y \
   redis-tools \
   ruby-dev \
   scdaemon \
+  terraform \
   wkhtmltopdf \
   zsh
 

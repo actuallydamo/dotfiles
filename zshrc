@@ -68,3 +68,5 @@ load-nvmrc
 
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
+
+complete -o nospace -C /usr/bin/terraform terraform
