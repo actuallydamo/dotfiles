@@ -1,9 +1,8 @@
 [user]
   name = Damien Kingsley
   email = actuallydamo@gmail.com
-  signingkey = 0xDCE8FAD9827C3770
+  signingkey = 0xE89ABC254FF3F297
 [core]
-  editor = subl -n -w
   excludesfile = ~/.gitignore_global
 [commit]
   template = ~/.commit-template
@@ -32,3 +31,4 @@
   required = true
 [rebase]
   autosquash = true
+  autostash = true

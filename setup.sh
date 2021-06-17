@@ -3,13 +3,14 @@ set -euo pipefail
 
 # Terraform repo setup
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') main"
 
 # Prerequisites
 sudo apt update
 sudo apt install -y \
   cmake \
   direnv \
+  flameshot \
   fzf \
   git \
   git-lfs \
@@ -24,6 +25,8 @@ sudo apt install -y \
   ruby-dev \
   scdaemon \
   terraform \
+  tmate \
+  v4l-utils \
   wkhtmltopdf \
   zsh
 
@@ -40,7 +43,7 @@ install_deb_from_url () {
 }
 
 # Grab my GPG Public Key
-gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys DCE8FAD9827C3770
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys E89ABC254FF3F297
 
 # Starship Install
 sudo curl -fsSL https://starship.rs/install.sh | bash -s -- -f
@@ -63,16 +66,13 @@ rm -f "$TEMP_FONT"
 fc-cache -f -v
 fc-list | grep "Hack"
 
-# Set terminal config
-dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
-
 # Slack Install
-wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
+slack_file="$(wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
 | tr "\t\r\n'" '   "' \
 | grep -i -o '<a[^>]\+href[ ]*=[ \t]*"\(ht\|f\)tps\?:[^"]\+"' \
 | sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
-| grep 'slack-desktop' \
-| install_deb_from_url "${SLACK_URL}"
+| grep 'slack-desktop')"
+install_deb_from_url "$slack_file"
 
 # Chrome Install
 install_deb_from_url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
@@ -89,6 +89,9 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') stable"
 sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
 # Docker Compose
 COMPOSE_VERSION=$(github_release docker/compose)
@@ -131,5 +134,30 @@ rm -rf /tmp/aws
 # VS Code Install
 install_deb_from_url "https://update.code.visualstudio.com/latest/linux-deb-x64/stable" &&
 
+# aws-vault
+AWS_VAULT_VERSION=$(github_release 99designs/aws-vault)
+sudo curl -L -o /usr/local/bin/aws-vault "https://github.com/99designs/aws-vault/releases/download/${AWS_VAULT_VERSION}/aws-vault-linux-amd64"
+sudo chmod 755 /usr/local/bin/aws-vault
+
+if [ $(hostname) = damien-desktop ]; then
+  # Signal
+  wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+  cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+  echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+  sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+  sudo apt update && sudo apt install signal-desktop
+  #Discord
+
+  #Spotify
+
+fi
+
 rm ~/.gitconfig
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
+
+ln -s ~/.dotfiles/commitmessage.txt ~/.commit-template
+
+ln -s ~/.dotfiles/my.cnf ~/.my.cnf
+
+# Set terminal config
+dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile

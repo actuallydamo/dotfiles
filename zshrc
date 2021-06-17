@@ -2,7 +2,7 @@ source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/damien/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
