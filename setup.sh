@@ -67,12 +67,12 @@ fc-cache -f -v
 fc-list | grep "Hack"
 
 # Slack Install
-wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
+slack_file="$(wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
 | tr "\t\r\n'" '   "' \
 | grep -i -o '<a[^>]\+href[ ]*=[ \t]*"\(ht\|f\)tps\?:[^"]\+"' \
 | sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
-| grep 'slack-desktop' \
-| install_deb_from_url "${SLACK_URL}"
+| grep 'slack-desktop')"
+install_deb_from_url "$slack_file"
 
 # Chrome Install
 install_deb_from_url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
