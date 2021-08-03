@@ -25,6 +25,7 @@ sudo apt install -y \
   ruby-dev \
   scdaemon \
   terraform \
+  tmate \
   wkhtmltopdf \
   zsh
 
