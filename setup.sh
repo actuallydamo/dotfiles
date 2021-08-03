@@ -89,6 +89,9 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') stable"
 sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
 # Docker Compose
 COMPOSE_VERSION=$(github_release docker/compose)
