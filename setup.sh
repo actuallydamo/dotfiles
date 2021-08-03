@@ -40,7 +40,7 @@ install_deb_from_url () {
 }
 
 # Grab my GPG Public Key
-gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys DCE8FAD9827C3770
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys E89ABC254FF3F297
 
 # Starship Install
 sudo curl -fsSL https://starship.rs/install.sh | bash -s -- -f
@@ -133,3 +133,5 @@ install_deb_from_url "https://update.code.visualstudio.com/latest/linux-deb-x64/
 
 rm ~/.gitconfig
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
+
+sudo ln -s ~/.dotfiles/gpg.conf $GNUPGHOME/gpg.conf
