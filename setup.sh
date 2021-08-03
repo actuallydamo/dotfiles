@@ -63,9 +63,6 @@ rm -f "$TEMP_FONT"
 fc-cache -f -v
 fc-list | grep "Hack"
 
-# Set terminal config
-dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
-
 # Slack Install
 wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
 | tr "\t\r\n'" '   "' \
@@ -135,3 +132,6 @@ rm ~/.gitconfig
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
 
 sudo ln -s ~/.dotfiles/gpg.conf $GNUPGHOME/gpg.conf
+
+# Set terminal config
+dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
