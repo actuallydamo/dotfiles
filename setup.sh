@@ -10,6 +10,7 @@ sudo apt update
 sudo apt install -y \
   cmake \
   direnv \
+  flameshot \
   fzf \
   git \
   git-lfs \
