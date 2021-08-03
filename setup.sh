@@ -26,6 +26,7 @@ sudo apt install -y \
   scdaemon \
   terraform \
   tmate \
+  v4l-utils \
   wkhtmltopdf \
   zsh
 
