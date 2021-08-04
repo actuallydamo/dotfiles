@@ -141,5 +141,14 @@ ln -s ~/.dotfiles/commitmessage.txt ~/.commit-template
 
 sudo ln -s ~/.dotfiles/gpg.conf $GNUPGHOME/gpg.conf
 
+if [ $(hostname) = damien-desktop ]; then
+  # Signal
+  wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+  cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+  echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+  sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+  sudo apt update && sudo apt install signal-desktop
+fi
+
 # Set terminal config
 dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
