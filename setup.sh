@@ -117,9 +117,6 @@ sudo make install
 cd -
 rm -rf "/tmp/ruby-install-${RUBY_INSTALL_VERSION}/"
 
-ruby-install ruby 2.6.5
-ruby-install --latest ruby
-
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 cd /tmp/
 unzip awscliv2.zip
@@ -181,7 +178,11 @@ if [ $(hostname) = damien-laptop ]; then
   | sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
   | grep 'slack-desktop')"
   install_deb_from_url "$slack_file"
+
+  ruby-install ruby 2.6.5
 fi
+
+ruby-install --latest ruby
 
 # Set terminal config
 dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
