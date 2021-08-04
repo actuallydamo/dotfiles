@@ -158,6 +158,10 @@ if [ $(hostname) = damien-laptop ]; then
   AWS_VAULT_VERSION=$(github_release 99designs/aws-vault)
   sudo curl -L -o /usr/local/bin/aws-vault "https://github.com/99designs/aws-vault/releases/download/${AWS_VAULT_VERSION}/aws-vault-linux-amd64"
   sudo chmod 755 /usr/local/bin/aws-vault
+
+  # aws session manager plugin
+  install_deb_from_url "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"
+
 fi
 
 # Set terminal config
