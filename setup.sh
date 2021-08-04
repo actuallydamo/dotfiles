@@ -150,5 +150,10 @@ if [ $(hostname) = damien-desktop ]; then
   sudo apt update && sudo apt install signal-desktop
 fi
 
+if [ $(hostname) = damien-laptop ]; then
+  # MySQL config
+  ln -s ~/.dotfiles/my.cnf ~/.my.cnf
+fi
+
 # Set terminal config
 dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < terminal-profile
