@@ -71,14 +71,6 @@ rm -f "$TEMP_FONT"
 fc-cache -f -v
 fc-list | grep "Hack"
 
-# Slack Install
-slack_file="$(wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
-| tr "\t\r\n'" '   "' \
-| grep -i -o '<a[^>]\+href[ ]*=[ \t]*"\(ht\|f\)tps\?:[^"]\+"' \
-| sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
-| grep 'slack-desktop')"
-install_deb_from_url "$slack_file"
-
 # Chrome Install
 install_deb_from_url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
@@ -181,6 +173,14 @@ if [ $(hostname) = damien-laptop ]; then
   echo "0 9 * * * lynis audit system --upload --quiet --cronjob" >> "$TEMP_CRON" &&
   crontab "$TEMP_CRON"
   rm -f "$TEMP_CRON"
+
+  # Slack Install
+  slack_file="$(wget -q "https://slack.com/downloads/instructions/ubuntu" -O - \
+  | tr "\t\r\n'" '   "' \
+  | grep -i -o '<a[^>]\+href[ ]*=[ \t]*"\(ht\|f\)tps\?:[^"]\+"' \
+  | sed -e 's/^.*"\([^"]\+\)".*$/\1/g' \
+  | grep 'slack-desktop')"
+  install_deb_from_url "$slack_file"
 fi
 
 # Set terminal config
