@@ -5,6 +5,10 @@ set -euo pipefail
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') main"
 
+# Spotify repo setup
+curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
+echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
 # Prerequisites
 sudo apt update
 sudo apt install -y \
@@ -24,6 +28,7 @@ sudo apt install -y \
   redis-tools \
   ruby-dev \
   scdaemon \
+  spotify-client \
   terraform \
   tmate \
   v4l-utils \
@@ -143,6 +148,7 @@ sudo ln -s ~/.dotfiles/gpg.conf $GNUPGHOME/gpg.conf
 
 # Discord
 install_deb_from_url "https://discord.com/api/download?platform=linux&format=deb"
+
 
 if [ $(hostname) = damien-desktop ]; then
   # Signal
