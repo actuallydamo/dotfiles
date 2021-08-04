@@ -162,6 +162,16 @@ if [ $(hostname) = damien-laptop ]; then
   # aws session manager plugin
   install_deb_from_url "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"
 
+  # Lynis Installation
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 013baa07180c50a7101097ef9de922f1c2fde6c4
+  echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99disable-translations
+  echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+  sudo apt update && sudo apt install -y lynis
+  touch /etc/lynis/custom.prf
+  TEMP_CRON="$(mktemp)" &&
+  echo "0 9 * * * lynis audit system --upload --quiet --cronjob" >> "$TEMP_CRON" &&
+  crontab "$TEMP_CRON"
+  rm -f "$TEMP_CRON"
 fi
 
 # Set terminal config
