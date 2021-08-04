@@ -153,6 +153,11 @@ fi
 if [ $(hostname) = damien-laptop ]; then
   # MySQL config
   ln -s ~/.dotfiles/my.cnf ~/.my.cnf
+
+  # aws-vault
+  AWS_VAULT_VERSION=$(github_release 99designs/aws-vault)
+  sudo curl -L -o /usr/local/bin/aws-vault "https://github.com/99designs/aws-vault/releases/download/${AWS_VAULT_VERSION}/aws-vault-linux-amd64"
+  sudo chmod 755 /usr/local/bin/aws-vault
 fi
 
 # Set terminal config
