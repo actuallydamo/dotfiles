@@ -32,3 +32,4 @@
   required = true
 [rebase]
   autosquash = true
+  autostash = true
