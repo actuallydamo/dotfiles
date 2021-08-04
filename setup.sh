@@ -141,6 +141,9 @@ ln -s ~/.dotfiles/commitmessage.txt ~/.commit-template
 
 sudo ln -s ~/.dotfiles/gpg.conf $GNUPGHOME/gpg.conf
 
+# Discord
+install_deb_from_url "https://discord.com/api/download?platform=linux&format=deb"
+
 if [ $(hostname) = damien-desktop ]; then
   # Signal
   wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
