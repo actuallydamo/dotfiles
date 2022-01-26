@@ -17,12 +17,14 @@ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sou
 # Prerequisites
 sudo apt update
 sudo apt install -y \
+  cargo
   cmake \
   direnv \
   flameshot \
   fzf \
   git \
   git-lfs \
+  i3-wm \
   jq \
   libicu-dev \
   libmysqlclient-dev \
@@ -33,6 +35,7 @@ sudo apt install -y \
   pv \
   pulseeffects \
   redis-tools \
+  rofi \
   ruby-dev \
   scdaemon \
   spotify-client \
@@ -41,6 +44,10 @@ sudo apt install -y \
   v4l-utils \
   wkhtmltopdf \
   zsh
+
+curl https://sh.rustup.rs -sSf | sh
+
+cargo install i3status-rs
 
 # Get version of latest release of a GitHub repository
 github_release () {
@@ -142,6 +149,12 @@ sudo ln -s ~/.dotfiles/gpg.conf ~/.gnupg/gpg.conf
 # Discord
 install_deb_from_url "https://discord.com/api/download?platform=linux&format=deb"
 
+# i3
+ln -s ~/.dotfiles/i3config ~/.config/i3/config
+
+# rofi
+## rofi-power-menu
+curl "https://raw.githubusercontent.com/jluttine/rofi-power-menu/master/rofi-power-menu" -o "~/.local/bin/"
 
 if [ $(hostname) = damo-desktop ]; then
   # Signal
