@@ -133,8 +133,6 @@ install_deb_from_url "https://update.code.visualstudio.com/latest/linux-deb-x64/
 rm ~/.gitconfig
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
 
-ln -s ~/.dotfiles/commitmessage.txt ~/.commit-template
-
 sudo ln -s ~/.dotfiles/gpg.conf ~/.gnupg/gpg.conf
 
 # Discord

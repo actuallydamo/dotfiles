@@ -6,7 +6,7 @@
   editor = code --wait
   excludesfile = ~/.gitignore_global
 [commit]
-  template = ~/.commit-template
+  template = ~/.dotfiles/commitmessage.txt
   gpgsign = true
   verbose = true
 [core]
