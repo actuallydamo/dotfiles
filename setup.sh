@@ -45,7 +45,7 @@ github_release () {
 install_deb_from_url () {
   TEMP_DEB="$(mktemp --suffix=.deb)" &&
   wget -O "$TEMP_DEB" "$1" &&
-  sudo apt install "$TEMP_DEB"
+  sudo apt install -y "$TEMP_DEB"
   rm -f "$TEMP_DEB"
 }
 
