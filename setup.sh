@@ -1,9 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+DISTRIB_CODENAME=$( \
+   (grep DISTRIB_CODENAME /etc/upstream-release/lsb-release || \
+    grep DISTRIB_CODENAME /etc/lsb-release) 2>/dev/null | \
+   cut -d'=' -f2 )
+
 # Terraform repo setup
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') main"
+sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $DISTRIB_CODENAME main"
 
 # Spotify repo setup
 curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
@@ -85,8 +90,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 sudo dpkg --purge docker docker-engine docker.io containerd runc
 sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(grep DISTRIB_CODENAME= /etc/upstream-release/lsb-release | awk -F = '{print $(2)}') stable"
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $DISTRIB_CODENAME stable"
 sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo groupadd docker
 sudo usermod -aG docker $USER
