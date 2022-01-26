@@ -33,3 +33,5 @@
 [rebase]
   autosquash = true
   autostash = true
+[init]
+	defaultBranch = main
