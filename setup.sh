@@ -22,9 +22,11 @@ sudo apt install -y \
   libicu-dev \
   libmysqlclient-dev \
   libpq-dev \
+  lsp-plugins \
   make \
   mariadb-client \
   pv \
+  pulseeffects \
   redis-tools \
   ruby-dev \
   scdaemon \
