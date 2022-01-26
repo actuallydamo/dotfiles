@@ -141,7 +141,7 @@ sudo ln -s ~/.dotfiles/gpg.conf ~/.gnupg/gpg.conf
 install_deb_from_url "https://discord.com/api/download?platform=linux&format=deb"
 
 
-if [ $(hostname) = damien-desktop ]; then
+if [ $(hostname) = damo-desktop ]; then
   # Signal
   wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
   cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
