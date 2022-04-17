@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# Run this one after you've got an OS installed, and you're logged in as a user
+#
+
+localectl set-locale LANG=en_AU.UTF-8
+export LANG=en_AU.UTF-8
+
+# Import GPG public keys
+keys=(
+    "5E3C45D7B312C643" # Spotify
+    "A2C794A986419D8A" # libc++
+    "E89ABC254FF3F297" # Me
+)
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --receive-keys ${keys[*]}
+
+#
+# Aura
+#
+git clone https://aur.archlinux.org/aura-bin.git /tmp/aura-bin
+cd /tmp/aura-bin
+makepkg
+sudo pacman -U --noconfirm /tmp/aura-bin/*.pkg.tar.zst
+cd -
+
+export PATH="$PATH:$HOME/.cargo/bin"
+
+rustup install stable
+rustup default stable
+
+echo "Installing pacman packages..."
+sudo aura -S $(grep -v '^#' ~/.dotfiles/setup/pacman)
+
+echo "Installing AUR packages..."
+sudo aura -Aa $(grep -v '^#' ~/.dotfiles/setup/aur)
+
+if [ -f /sys/module/battery/initstate ] || [ -d /proc/acpi/battery/BAT0 ] then
+    echo "Installing pacman laptop packages..."
+    sudo aura -S $(grep -v '^#' ~/.dotfiles/setup/pacman-laptop)
+fi
+
+# Oh My ZSH
+curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+
+systemctl enable --now iwd
+
+# Fresh
+rm -f ~/.zshrc
+bash -c "`curl -sL get.freshshell.com`"
+rm -f ~/.freshrc
+ln -s ~/.dotfiles/freshrc ~/.freshrc
+
+
+echo "Done. Time to log out and in again!"
