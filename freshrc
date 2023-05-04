@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+fresh freshshell/fresh bin/fresh --bin
+
+fresh config/gitconfig --file="$HOME"/.config/git/config
+fresh config/gpg.conf --file="$HOME/.gnupg/gpg.conf" # Disabled for GPG reset
+fresh config/gpg-agent.conf --file="$HOME/.gnupg/gpg-agent.conf" # Disabled for GPG reset
+fresh config/i3config --file="$HOME"/.config/i3/config
+fresh config/i3status-rs --file="$HOME"/.config/i3status-rs/config.toml
+fresh config/my.cnf --file
+fresh config/rofi.rasi --file="$HOME"/.config/rofi/config.rasi
+fresh config/xinitrc --file="$HOME"/.config/X11/xinitrc
+#fresh config/zshrc --file="$HOME"/.config/zsh/.zshrc
+fresh config/zshrc --file
+
+AWS_FILE=config/aws.asc
+if test -f "$AWS_FILE"; then
+  fresh "$AWS_FILE" --file="$HOME"/.config/aws/config --filter="gpg --quiet --batch --no-tty --decrypt"
+fi

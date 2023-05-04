@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+#
+# Run this from an Arch Live boot to get Arch installed on a fully encrypted btrfs partition
+#
+
+set -euo pipefail
+
+lsblk
+
+function inform {
+  echo -e "\e[94m$1\e[0m"
+}
+
+function warn {
+  echo -e "\e[1m\e[33m$1\e[0m"
+}
+
+function danger {
+  echo -e "\e[1m\e[31m$1\e[0m"
+}
+
+inform "Enter the full path to the device to partition (e.g. /dev/sda)"
+read -r install_device
+
+inform "Specify swap size (in GiB). 0 for no swap"
+read -r swap_size
+
+inform "Specify desired hostname"
+read -r new_hostname
+
+inform "Specify desired username"
+read -r new_username
+
+danger "Proceeding will fully erase data on $install_device. Type \"fully erase\" to continue."
+read -r erase_confirm
+
+if [ "$erase_confirm" != "fully erase" ]; then
+  warn "Confirmation not made, aborting"
+  exit 1
+fi
+
+if [ "$(lspci -d ::280 | wc -l)" -ge "1" ]; then
+  wifi_present=true
+else
+  wifi_present=false
+fi
+
+partition_prefix="$install_device"
+
+if [[ $install_device == /dev/nvme* ]]; then
+  partition_prefix="${install_device}p"
+fi
+
+wipefs -a "$install_device"
+
+boot_partition="${partition_prefix}1"
+root_partition="${partition_prefix}2"
+
+sfdisk "$install_device" <<EOF
+label: gpt
+
+$boot_partition : size=512MiB, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+$root_partition : type=0FC63DAF-8483-4772-8E79-3D69D8477DE4
+EOF
+
+mkfs.fat -F32 "$boot_partition"
+
+inform "Erasing disk. You will be prompted to setup a disk password"
+cryptsetup luksFormat --type=luks2 "$root_partition"
+cryptsetup open "$root_partition" luks
+mkfs.btrfs -L luks /dev/mapper/luks
+
+mount -t btrfs /dev/mapper/luks /mnt
+btrfs subvolume create /mnt/@root
+btrfs subvolume create /mnt/@var
+btrfs subvolume create /mnt/@home
+
+if [[ "$swap_size" != "0" ]]; then
+  btrfs subvolume create /mnt/@swap
+fi
+
+umount /mnt
+mount -o subvol=@root /dev/mapper/luks /mnt
+mkdir /mnt/{var,home}
+mount -o subvol=@var /dev/mapper/luks /mnt/var
+mount -o subvol=@home /dev/mapper/luks /mnt/home
+if [[ "$swap_size" != "0" ]]; then
+  mkdir /mnt/swap
+  mount -o subvol=@swap /dev/mapper/luks /mnt/swap
+
+  truncate -s 0 /mnt/swap/swapfile
+  chattr +C /mnt/swap/swapfile
+  dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=$(($swap_size * 1024)) status=progress
+  chmod 600 /mnt/swap/swapfile
+  mkswap /mnt/swap/swapfile
+  swapon /mnt/swap/swapfile
+fi
+
+mkdir /mnt/boot
+mount "$boot_partition" /mnt/boot
+
+curl "https://archlinux.org/mirrorlist/?country=AU&protocol=http&protocol=https&ip_version=4" |
+  sed '/#Server/s/#//g' >/etc/pacman.d/mirrorlist
+
+pacstrap /mnt base base-devel linux linux-firmware btrfs-progs zsh nano git sudo efibootmgr systemd-resolvconf dialog
+
+if grep Intel /proc/cpuinfo; then
+  cpu_brand="intel"
+elif grep AMD /proc/cpuinfo; then
+  cpu_brand="amd"
+fi
+pacstrap /mnt $cpu_brand-ucode
+
+genfstab -L /mnt >>/mnt/etc/fstab
+sed -i '/btrfs/s/relatime/noatime,discard/g' /mnt/etc/fstab
+sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect modconf block keyboard sd-vconsole sd-encrypt filesystems)/' /mnt/etc/mkinitcpio.conf
+
+cat <<EOF >/mnt/etc/hosts
+127.0.0.1 localhost
+::1       localhost
+127.0.1.1 $new_hostname.localdomain $new_hostname
+EOF
+
+echo "$new_hostname" >/mnt/etc/hostname
+
+echo 'LANG=en_AU.UTF-8' >/mnt/etc/locale.conf
+echo -e "en_US.UTF-8 UTF-8\nen_AU.UTF-8 UTF-8" >>/mnt/etc/locale.gen
+echo 'KEYMAP=us' >/mnt/etc/vconsole.conf
+sed -i '/# %wheel ALL=(ALL:ALL) ALL/s/^# *//' /mnt/etc/sudoers
+
+sed -i 's/#NTP=/NTP=au.pool.ntp.org/' /mnt/etc/systemd/timesyncd.conf
+sed -i '/#FallbackNTP=/s/^# *//' /mnt/etc/systemd/timesyncd.conf
+
+luks_uuid=$(cryptsetup luksUUID "$root_partition")
+
+mkdir -p /mnt/boot/loader/entries
+
+cat <<EOF >/mnt/boot/loader/entries/arch.conf
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /$cpu_brand-ucode.img
+initrd  /initramfs-linux.img
+options rw luks.uuid=$luks_uuid luks.name=$luks_uuid=luks root=/dev/mapper/luks rootflags=subvol=@root net.ifnames=0
+EOF
+
+cat <<EOF >/mnt/boot/loader/loader.conf
+default	arch
+timeout 3
+EOF
+
+mkdir -p /mnt/etc/systemd/resolved.conf.d
+
+cat <<EOF >/mnt/etc/systemd/resolved.conf.d/fallback_dns.conf
+[Resolve]
+FallbackDNS=
+EOF
+
+cat <<EOF >/mnt/etc/systemd/network/20-wired.network
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
+EOF
+
+if [ "$wifi_present" = true ]; then
+  pacstrap /mnt wpa_supplicant iw iwd
+  mkdir -p /mnt/etc/iwd
+
+  cat <<EOF >/mnt/etc/iwd/main.conf
+[General]
+EnableNetworkConfiguration=true
+
+[Network]
+NameResolvingService=systemd
+EOF
+fi
+
+sudo rm -f /mnt/etc/resolv.conf
+
+inform "Setting up root and user accounts. You will be prompted to supply passwords for both."
+
+cat <<EOF >/mnt/root/chroot-setup.sh
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+passwd
+useradd -m -g users -G wheel -s /bin/zsh $new_username
+passwd $new_username
+
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+rm -f /etc/localtime
+ln -s /usr/share/zoneinfo/Australia/Melbourne /etc/localtime
+hwclock --systohc
+
+locale-gen
+
+systemctl enable systemd-resolved
+systemctl enable systemd-networkd
+
+systemctl enable systemd-timesyncd
+
+if [ "$wifi_present" = true ]; then
+  sudo systemctl enable iwd
+fi
+
+bootctl --path=/boot install
+
+mkinitcpio -p linux
+EOF
+
+chmod +x /mnt/root/chroot-setup.sh
+
+arch-chroot /mnt /root/chroot-setup.sh
+
+pacman -Sy git
+git clone https://github.com/actuallydamo/dotfiles /mnt/home/"$new_username"/.dotfiles
+chown -R 1000:984 /mnt/home/"$new_username"/.dotfiles

@@ -22,6 +22,7 @@
   file-decoration-style = none
 [alias]
   hard-pull = "!git fetch origin $(git rev-parse --abbrev-ref HEAD) && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  pushf = push --force-with-lease --force-if-includes
   l = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%Cred\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --no-merges
   lb = l origin/HEAD..HEAD
   fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
