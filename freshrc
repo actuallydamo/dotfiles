@@ -9,6 +9,7 @@ fresh config/i3config --file="$HOME"/.config/i3/config
 fresh config/i3status-rs --file="$HOME"/.config/i3status-rs/config.toml
 fresh config/my.cnf --file
 fresh config/rofi.rasi --file="$HOME"/.config/rofi/config.rasi
+fresh config/topgrade.toml --file="$HOME"/.config/topgrade.toml
 fresh config/xinitrc --file="$HOME"/.config/X11/xinitrc
 #fresh config/zshrc --file="$HOME"/.config/zsh/.zshrc
 fresh config/zshrc --file
