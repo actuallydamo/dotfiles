@@ -71,9 +71,7 @@ rustup install stable
 rustup default stable
 
 # Oh My ZSH
-if [ "$ZSH" != yes ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # NVM
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
