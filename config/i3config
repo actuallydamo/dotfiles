@@ -207,5 +207,5 @@ client.background       $base07
 # bindsym $mod+Shift+w exec rofi -show power-menu -modi "power-menu:rofi-power-menu"
 bindsym $mod+Control+l exec $HOME/.dotfiles/lock.sh
 
-bindsym $mod+space exec --no-startup-id ~/.config/rofi/launchers/type-6/launcher.sh
+bindsym $mod+space exec --no-startup-id rofi -show combi
 bindsym $mod+Shift+w exec --no-startup-id powermenu_t1
