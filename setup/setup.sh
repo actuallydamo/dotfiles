@@ -73,12 +73,6 @@ rustup default stable
 # Oh My ZSH
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-# NVM
-export NVM_DIR="$XDG_CONFIG_HOME/nvm"
-[ -e "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
-[ -e "$NVM_DIR/nvm.sh" ] || ln -s /usr/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
-[ -e "$NVM_DIR/nvm-exec" ] || ln -s /usr/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
-
 # ZSH Autosuggestions link from aur package to plugin folder
 if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     ln -s /usr/share/zsh/plugins/zsh-autosuggestions "$HOME"/.oh-my-zsh/plugins/zsh-autosuggestions
