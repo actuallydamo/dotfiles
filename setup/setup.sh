@@ -74,7 +74,7 @@ if [ -f "/sys/class/power_supply/BAT0/capacity" ]; then
     sudo aura -A --noconfirm "${aura_packages[@]}"
 
     # Enable bluetooh
-    sudo systemctl enable --now bluetooh
+    sudo systemctl enable --now bluetooth
 fi
 
 # Install rust
