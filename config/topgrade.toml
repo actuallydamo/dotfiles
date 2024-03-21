@@ -10,7 +10,7 @@
 
 # Disable specific steps - same options as the command line flag
 # dotter --help (look for --disabled)
-disable = ["containers", "node", "pnpm", "yarn"]
+disable = ["containers", "node", "pnpm", "yarn", "shell"]
 
 # Ignore failures for these steps
 #ignore_failures = ["powershell"]
