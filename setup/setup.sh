@@ -66,8 +66,8 @@ systemctl --user enable --now pipewire-pulse
 # When running on a laptop
 if [ -f "/sys/class/power_supply/BAT0/capacity" ]; then
     inform "Installing pacman laptop packages..."
-    readarray -t pacman_packages < <(pacman -Slq | sort) <(sort "$HOME"/.dotfiles/setup/pacman-laptop)
-    sudo pacman -S --noconfirm --needed "${pacman_packages[@]}"
+    readarray -t pacman_laptop_packages <<< "$(comm -12 <(pacman -Slq | sort) <(sort "$HOME"/.dotfiles/setup/pacman-laptop))"
+    sudo pacman -S --noconfirm --needed "${pacman_laptop_packages[@]}"
 
     inform "Installing AUR laptop packages..."
     readarray -t aura_packages <<< "$(cat "$HOME"/.dotfiles/setup/aur-laptop)"
