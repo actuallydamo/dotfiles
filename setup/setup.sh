@@ -96,6 +96,11 @@ if [ ! -f "/usr/local/bin/rofi-power-menu" ]; then
     sudo chmod 755 "/usr/local/bin/rofi-power-menu"
 fi
 
+inform "Setting up Docker"
+sudo usermod -aG docker "$USER"
+sudo systemctl enable --now docker
+sudo systemctl enable --now containerd
+
 inform "Setting up fresh"
 rm -f ~/.zshrc
 bash -c "$(curl -sL get.freshshell.com)"
