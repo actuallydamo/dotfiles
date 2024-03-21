@@ -11,8 +11,6 @@ fresh config/my.cnf --file
 fresh config/rofi.rasi --file="$HOME"/.config/rofi/config.rasi
 fresh config/topgrade.toml --file="$HOME"/.config/topgrade.toml
 fresh config/xinitrc --file="$HOME"/.config/X11/xinitrc
-#fresh config/zshrc --file="$HOME"/.config/zsh/.zshrc
-fresh config/zshrc --file
 fresh config/flameshot.ini --file="$HOME"/.config/flameshot/flameshot.ini
 
 AWS_FILE=config/aws.asc
