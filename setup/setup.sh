@@ -93,6 +93,7 @@ fi
 inform "Setting up rofi power menu"
 if [ ! -f "/usr/local/bin/rofi-power-menu" ]; then
     sudo curl "https://raw.githubusercontent.com/jluttine/rofi-power-menu/master/rofi-power-menu" -o "/usr/local/bin/rofi-power-menu"
+    sudo chmod 755 "/usr/local/bin/rofi-power-menu"
 fi
 
 inform "Setting up fresh"
