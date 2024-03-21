@@ -5,6 +5,18 @@
 
 set -euo pipefail
 
+function inform {
+  echo -e "\e[94m$1\e[0m"
+}
+
+function warn {
+  echo -e "\e[1m\e[33m$1\e[0m"
+}
+
+function error {
+  echo -e "\e[1m\e[31m$1\e[0m"
+}
+
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -40,11 +52,11 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 sudo pacman -Syu
 
-echo "Installing pacman packages..."
+inform "Installing pacman packages..."
 readarray -t pacman_packages <<< "$(comm -12 <(pacman -Slq | sort) <(sort "$HOME"/.dotfiles/setup/pacman))"
 sudo pacman -S --noconfirm --needed "${pacman_packages[@]}"
 
-echo "Installing AUR packages..."
+inform "Installing AUR packages..."
 readarray -t aura_packages <<< "$(cat "$HOME"/.dotfiles/setup/aur)"
 sudo aura -A --needed --noconfirm "${aura_packages[@]}"
 
@@ -53,11 +65,11 @@ systemctl --user enable --now pipewire-pulse
 
 # When running on a laptop
 if [ -f "/sys/class/power_supply/BAT0/capacity0" ]; then
-    echo "Installing pacman laptop packages..."
+    inform "Installing pacman laptop packages..."
     readarray -t pacman_packages < <(pacman -Slq | sort) <(sort "$HOME"/.dotfiles/setup/pacman-laptop)
     sudo pacman -S --noconfirm --needed "${pacman_packages[@]}"
 
-    echo "Installing AUR laptop packages..."
+    inform "Installing AUR laptop packages..."
     readarray -t aura_packages <<< "$(cat "$HOME"/.dotfiles/setup/aur-laptop)"
     sudo aura -A --noconfirm "${aura_packages[@]}"
 
@@ -78,14 +90,15 @@ if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
     ln -s /usr/share/zsh/plugins/zsh-autosuggestions "$HOME"/.oh-my-zsh/plugins/zsh-autosuggestions
 fi
 
+inform "Setting up rofi power menu"
 if [ ! -f "/usr/local/bin/rofi-power-menu" ]; then
     sudo curl "https://raw.githubusercontent.com/jluttine/rofi-power-menu/master/rofi-power-menu" -o "/usr/local/bin/rofi-power-menu"
 fi
 
-# Fresh
+inform "Setting up fresh"
 rm -f ~/.zshrc
 bash -c "$(curl -sL get.freshshell.com)"
 rm -f ~/.freshrc
 ln -s ~/.dotfiles/freshrc ~/.freshrc
 
-echo "Done. Time to log out and in again!"
+inform "Done. Time to log out and in again!"
