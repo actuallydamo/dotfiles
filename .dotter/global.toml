@@ -2,6 +2,7 @@
 depends = [
   "git",
   "gpg",
+  "i3",
   "zsh",
 ]
 
@@ -11,6 +12,10 @@ depends = [
 [gpg.files]
 "config/gpg.conf" = "~/.gnupg/gpg.conf"
 "config/gpg-agent.conf" = "~/.gnupg/gpg-agent.conf"
+
+[i3.files]
+"config/i3config" = "~/.config/i3/config"
+"config/i3status-rs" = "~/.config/i3status-rs/config.toml"
 
 [zsh.files]
 "config/zshrc" = "~/.zshrc"
