@@ -4,6 +4,7 @@ depends = [
   "gpg",
   "i3",
   "rofi",
+  "topgrade",
   "zsh",
 ]
 
@@ -29,6 +30,9 @@ depends = [
 
 [rofi.files]
 "config/rofi.rasi" = "~/.config/rofi/config.rasi"
+
+[topgrade.files]
+"config/topgrade.toml" = "~/.config/topgrade.toml"
 
 [zsh.files]
 "config/zshrc" = "~/.zshrc"

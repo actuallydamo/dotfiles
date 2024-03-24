@@ -2,7 +2,6 @@
 
 fresh freshshell/fresh bin/fresh --bin
 
-fresh config/topgrade.toml --file="$HOME"/.config/topgrade.toml
 fresh config/xinitrc --file="$HOME"/.config/X11/xinitrc
 fresh config/flameshot.ini --file="$HOME"/.config/flameshot/flameshot.ini
 
