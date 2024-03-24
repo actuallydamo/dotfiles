@@ -3,6 +3,7 @@ depends = [
   "git",
   "gpg",
   "i3",
+  "rofi",
   "zsh",
 ]
 
@@ -25,6 +26,9 @@ depends = [
 
 [mysql.files]
 "config/my.cnf" = "~/.my.cnf"
+
+[rofi.files]
+"config/rofi.rasi" = "~/.config/rofi/config.rasi"
 
 [zsh.files]
 "config/zshrc" = "~/.zshrc"
