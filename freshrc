@@ -2,8 +2,6 @@
 
 fresh freshshell/fresh bin/fresh --bin
 
-fresh config/gpg.conf --file="$HOME/.gnupg/gpg.conf" # Disabled for GPG reset
-fresh config/gpg-agent.conf --file="$HOME/.gnupg/gpg-agent.conf" # Disabled for GPG reset
 fresh config/i3config --file="$HOME"/.config/i3/config
 fresh config/i3status-rs --file="$HOME"/.config/i3status-rs/config.toml
 fresh config/my.cnf --file
