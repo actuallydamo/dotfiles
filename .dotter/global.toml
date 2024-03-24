@@ -5,6 +5,7 @@ depends = [
   "i3",
   "rofi",
   "topgrade",
+  "xinit",
   "zsh",
 ]
 
@@ -33,6 +34,9 @@ depends = [
 
 [topgrade.files]
 "config/topgrade.toml" = "~/.config/topgrade.toml"
+
+[xinit.files]
+"config/xinitrc" = "~/.config/X11/xinitrc"
 
 [zsh.files]
 "config/zshrc" = "~/.zshrc"
