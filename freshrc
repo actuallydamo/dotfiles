@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-fresh freshshell/fresh bin/fresh --bin
-
-AWS_FILE=config/aws.asc
-if test -f "$AWS_FILE"; then
-  fresh "$AWS_FILE" --file="$HOME"/.config/aws/config --filter="gpg --quiet --batch --no-tty --decrypt"
-fi

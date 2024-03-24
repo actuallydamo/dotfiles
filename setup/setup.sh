@@ -101,10 +101,10 @@ sudo usermod -aG docker "$USER"
 sudo systemctl enable --now docker
 sudo systemctl enable --now containerd
 
-inform "Setting up fresh"
-rm -f ~/.zshrc
-bash -c "$(curl -sL get.freshshell.com)"
-rm -f ~/.freshrc
-ln -s ~/.dotfiles/freshrc ~/.freshrc
+inform "Setting up dotter"
+pushd ~/.dotfiles
+echo 'packages = ["base"]' > .dotter/local.toml
+dotter --force
+popd
 
 inform "Done. Time to log out and in again!"
