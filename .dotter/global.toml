@@ -6,6 +6,12 @@ depends = [
   "zsh",
 ]
 
+[work]
+depends = [
+  "base",
+  "mysql",
+]
+
 [git.files]
 "config/gitconfig" = "~/.config/git/config"
 
@@ -16,6 +22,9 @@ depends = [
 [i3.files]
 "config/i3config" = "~/.config/i3/config"
 "config/i3status-rs" = "~/.config/i3status-rs/config.toml"
+
+[mysql.files]
+"config/my.cnf" = "~/.my.cnf"
 
 [zsh.files]
 "config/zshrc" = "~/.zshrc"
