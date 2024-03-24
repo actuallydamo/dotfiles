@@ -1,2 +1,11 @@
+[base]
+depends = [
+  "git",
+  "zsh",
+]
+
+[git.files]
+"config/gitconfig" = "~/.config/git/config"
+
 [zsh.files]
 "config/zshrc" = "~/.zshrc"

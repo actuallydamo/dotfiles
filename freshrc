@@ -2,7 +2,6 @@
 
 fresh freshshell/fresh bin/fresh --bin
 
-fresh config/gitconfig --file="$HOME"/.config/git/config
 fresh config/gpg.conf --file="$HOME/.gnupg/gpg.conf" # Disabled for GPG reset
 fresh config/gpg-agent.conf --file="$HOME/.gnupg/gpg-agent.conf" # Disabled for GPG reset
 fresh config/i3config --file="$HOME"/.config/i3/config
