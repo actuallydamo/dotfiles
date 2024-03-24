@@ -1,5 +1,6 @@
 [base]
 depends = [
+  "flameshot",
   "git",
   "gpg",
   "i3",
@@ -14,6 +15,9 @@ depends = [
   "base",
   "mysql",
 ]
+
+[flameshot.files]
+"config/flameshot.ini" = "~/.config/flameshot/flameshot.ini"
 
 [git.files]
 "config/gitconfig" = "~/.config/git/config"
