@@ -26,6 +26,7 @@
   l = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%Cred\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --no-merges
   lb = l origin/HEAD..HEAD
   fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+  reword = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o -I{} git commit --fixup=reword:{}"
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
