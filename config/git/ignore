@@ -1,0 +1,57 @@
+# https://lefthook.dev/configuration/#config-file-name
+/.lefthook-local.json
+/.lefthook-local.toml
+/.lefthook-local.yaml
+/.lefthook-local.yml
+/lefthook-local.json
+/lefthook-local.toml
+/lefthook-local.yaml
+/lefthook-local.yml
+/.config/lefthook-local.json
+/.config/lefthook-local.toml
+/.config/lefthook-local.yaml
+/.config/lefthook-local.yml
+
+# https://lefthook.dev/configuration/source_dir_local.html
+/.lefthook-local/
+
+# https://mise.jdx.dev/configuration.html
+# https://mise.jdx.dev/configuration/environments.html
+.mise.*.local.toml
+.mise.local.toml
+mise.*.local.toml
+mise.local.toml
+.mise/*.local.toml
+mise/*.local.toml
+
+# https://mise.jdx.dev/configuration.html#tool-versions
+#.tool-versions
+{{#if dotter.packages.macos}}
+
+# General
+.DS_Store
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon[
+]
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+{{/if}}

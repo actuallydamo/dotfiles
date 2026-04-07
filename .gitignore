@@ -1,0 +1,4 @@
+config/fish/conf.d/local.fish
+.dotter/local.toml
+.dotter/cache
+.dotter/cache.toml

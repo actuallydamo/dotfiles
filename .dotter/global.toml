@@ -1,0 +1,170 @@
+[base]
+depends = [
+  "bash",
+  "btop",
+  "fish",
+  "git",
+  "gpg",
+  # "topgrade",
+]
+
+[linux]
+depends = ["base", "feh"]
+
+[macos]
+depends = ["base", "aerospace", "theme", "zsh"]
+
+[laptop.variables]
+font_size = "12.0"
+laptop = true
+
+[desktop.variables]
+font_size = "16.0"
+
+[colors.variables.colors]
+accent = "#787c99"
+cursor = "#c0caf5"
+foreground = "#a9b1d6"
+background = "#1a1b26"
+selection_foreground = "#c0caf5"
+selection_background = "#787c99"
+color0 = "#1a1b26"
+color1 = "#16161e"
+color2 = "#2f3549"
+color3 = "#444b6a"
+color4 = "#787c99"
+color5 = "#a9b1d6"
+color6 = "#cbccd1"
+color7 = "#d5d6db"
+color8 = "#c0caf5"
+color9 = "#a9b1d6"
+color10 = "#0db9d7"
+color11 = "#9ece6a"
+color12 = "#b4f9f8"
+color13 = "#2ac3de"
+color14 = "#bb9af7"
+color15 = "#f7768e"
+color00 = "#1a1b26"
+color01 = "#16161e"
+color02 = "#2f3549"
+color03 = "#444b6a"
+color04 = "#787c99"
+color05 = "#a9b1d6"
+color06 = "#cbccd1"
+color07 = "#d5d6db"
+color08 = "#c0caf5"
+color09 = "#a9b1d6"
+color0a = "#0db9d7"
+color0b = "#9ece6a"
+color0c = "#b4f9f8"
+color0d = "#2ac3de"
+color0e = "#bb9af7"
+color0f = "#f7768e"
+
+[colors.variables.colors16]
+base00 = "1a1b26"
+base01 = "16161e"
+base02 = "2f3549"
+base03 = "444b6a"
+base04 = "787c99"
+base05 = "a9b1d6"
+base06 = "cbccd1"
+base07 = "d5d6db"
+base08 = "c0caf5"
+base09 = "a9b1d6"
+base0a = "0db9d7"
+base0b = "9ece6a"
+base0c = "b4f9f8"
+base0d = "2ac3de"
+base0e = "bb9af7"
+base0f = "f7768e"
+
+
+# set -l color00 '#1a1b26'
+# set -l color01 '#16161e'
+# set -l color02 '#2f3549'
+# set -l color03 '#444b6a'
+# set -l color04 '#787c99'
+# set -l color05 '#a9b1d6'
+# set -l color06 '#cbccd1'
+# set -l color07 '#d5d6db'
+# set -l color08 '#c0caf5'
+# set -l color09 '#a9b1d6'
+# set -l color0A '#0db9d7'
+# set -l color0B '#9ece6a'
+# set -l color0C '#b4f9f8'
+# set -l color0D '#2ac3de'
+# set -l color0E '#bb9af7'
+# set -l color0F '#f7768e'
+
+
+# base00: "#16161E"
+# base01: "#1A1B26"
+# base02: "#2F3549"
+# base03: "#444B6A"
+# base04: "#787C99"
+# base05: "#787C99"
+# base06: "#CBCCD1"
+# base07: "#D5D6DB"
+# base08: "#F7768E"
+# base09: "#FF9E64"
+# base0A: "#E0AF68"
+# base0B: "#41A6B5"
+# base0C: "#7DCFFF"
+# base0D: "#7AA2F7"
+# base0E: "#BB9AF7"
+# base0F: "#D18616"
+
+[theme.files]
+"~/.config/omarchy/current/theme/" = "~/.local/share/omarchy/themes/tokyo-night/"
+
+[btop.files]
+# "~/.local/share/omarchy/default/themed/btop.theme.tpl" = "~/.config/btop/themes/current.theme"
+# "config/btop/btop.conf" = "~/.config/btop/btop.conf"
+
+[fish]
+depends = ["colors"]
+
+[fish.files]
+"bin/extract" = "~/.local/bin/extract"
+"config/fish/conf.d" = "~/.config/fish/conf.d"
+
+[fish.files."config/fish/linux.conf.d"]
+if = "dotter.packages.linux"
+target = "~/.config/fish/conf.d"
+type = "symbolic"
+
+[fish.files."config/fish/macos.conf.d"]
+if = "dotter.packages.macos"
+target = "~/.config/fish/conf.d"
+type = "symbolic"
+
+[git.files]
+"config/git/commit_template" = "~/.config/git/commit_template"
+"config/git/config" = "~/.config/git/config"
+"config/git/ignore" = { type = "template", target = "~/.config/git/ignore" }
+
+[feh.files]
+"bin/img" = "~/.local/bin/img"
+
+[mpv.files]
+"config/mpv/mpv.conf" = "~/.config/mpv/mpv.conf"
+
+[topgrade.files]
+"config/topgrade.toml" = "~/.config/topgrade.toml"
+
+[gpg.files]
+"config/gnupg/gpg.conf" = "~/.gnupg/gpg.conf"
+"config/gnupg/gpg-agent.conf" = "~/.gnupg/gpg-agent.conf"
+
+[gpg.variables]
+pinentry_program = "/usr/bin/pinentry-gnome3"
+
+[aerospace.files]
+"config/aerospace/aerospace.toml" = "~/.config/aerospace/aerospace.toml"
+
+[bash.files]
+"config/bash/bashrc" = "~/.bashrc"
+
+[zsh.files]
+"config/bash/zdotdir" = "~/.zshrc"

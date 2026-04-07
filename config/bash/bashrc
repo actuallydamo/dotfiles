@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# shellcheck source=/home/damo/.dotfiles/config/sh/exports.sh
+source "${HOME}/.dotfiles/config/sh/exports.sh"
+
+# Make helper functions available in interactive shell
+source "$HOME/.dotfiles/config/sh/functions/take.sh"
+
+source "$HOME/.dotfiles/config/sh/gpg.sh"
+
+eval "$(mise activate bash)"
+
+# If an LLM is running, exit before enhancing the shell
+[[ -n "$LLM" || "$TERM" = "dumb" ]] && return
+
+# Return early if not running interactively
+[[ $- == *i* ]] || return
+
+# Load Omarchy defaults
+# shellcheck source=/dev/null
+source ~/.local/share/omarchy/default/bash/rc

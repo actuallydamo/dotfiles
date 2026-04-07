@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+check_and_move() {
+  local dir="$1"
+  local items=()
+  local item
+
+  while IFS= read -r -d '' item; do
+    items+=("$item")
+  done < <(find "$dir" -mindepth 1 -maxdepth 1 -print0 2>/dev/null)
+
+  if [ "${#items[@]}" -eq 1 ]; then
+    local target_name
+    target_name="$(basename "${items[0]}")"
+    mv -- "${items[0]}" .
+    rmdir -- "$dir"
+    printf './%s\n' "$target_name"
+  else
+    printf '%s\n' "$dir"
+  fi
+}
+
+if [ -z "$1" ]; then
+  echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>" >&2
+  exit 1
+else
+  if [ -f "$1" ]; then
+    result_path=""
+
+    case $1 in
+    *.tar.bz2)
+      base="${1%.tar.bz2}"
+      mkdir -p "$base"
+      tar xjf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.tar.gz)
+      base="${1%.tar.gz}"
+      mkdir -p "$base"
+      tar xzf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.tar.xz)
+      base="${1%.tar.xz}"
+      mkdir -p "$base"
+      tar xJf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.lzma)
+      unlzma "$1"
+      result_path="${1%.lzma}"
+      ;;
+    *.bz2)
+      bunzip2 "$1"
+      result_path="${1%.bz2}"
+      ;;
+    *.rar)
+      base="${1%.rar}"
+      mkdir -p "$base"
+      unrar x -ad -idq "$1" "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.gz)
+      gunzip "$1"
+      result_path="${1%.gz}"
+      ;;
+    *.tar)
+      base="${1%.tar}"
+      mkdir -p "$base"
+      tar xf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.tbz2)
+      base="${1%.tbz2}"
+      mkdir -p "$base"
+      tar xjf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.tgz)
+      base="${1%.tgz}"
+      mkdir -p "$base"
+      tar xzf "$1" -C "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.zip)
+      base="${1%.zip}"
+      mkdir -p "$base"
+      unzip -q "$1" -d "$base"
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.Z)
+      uncompress "$1"
+      result_path="${1%.Z}"
+      ;;
+    *.7z)
+      base="${1%.7z}"
+      mkdir -p "$base"
+      7z x -bd "$1" -o"$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *.xz)
+      unxz "$1"
+      result_path="${1%.xz}"
+      ;;
+    *.exe)
+      base="${1%.exe}"
+      mkdir -p "$base"
+      cabextract "$1" -d "$base" >/dev/null
+      result_path="$(check_and_move "$base")"
+      ;;
+    *)
+      echo "extract: '$1' - unknown archive method" >&2
+      exit 1
+      ;;
+    esac
+
+    if [ -n "$result_path" ] && [ -e "$result_path" ]; then
+      printf '%s\n' "$result_path"
+    else
+      echo "extract: failed to determine extracted path for '$1'" >&2
+      exit 1
+    fi
+  else
+    echo "$1 - file does not exist" >&2
+    exit 1
+  fi
+fi

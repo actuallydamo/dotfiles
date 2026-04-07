@@ -1,0 +1,82 @@
+[user]
+  name = Damien Kingsley
+  email = actuallydamo@gmail.com
+  signingkey = 0xE89ABC254FF3F297 #gitleaks:allow -- Key ID is public
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+[init]
+  defaultBranch = main
+[alias]
+  a = add
+  ap = add -p
+  b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+  c = commit --verbose
+  ca = commit --amend
+  can = commit --amend --no-edit
+  cm = commit -m
+  cmb = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
+  sb = switch
+  cob = switch -c
+  cp = cherry-pick
+  d = diff
+  dbi = !fzf-delete-branches
+  dc = diff --cached
+  ds = diff --staged
+  f = fetch
+  ffm = merge --ff-only
+  fix = "!$EDITOR `git diff --name-only | uniq`"
+  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs git commit --fixup"
+  fu = commit --fixup
+  ful = "!git log origin/HEAD..HEAD --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+  hard-pull = "!git fetch origin $(git rev-parse --abbrev-ref HEAD) && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  la = "!git config -l | grep alias | cut -c 7-"
+  lb = lg origin/HEAD..HEAD
+  lg = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%Cred\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --no-merges
+  m = commit --amend --verbose
+  p = push
+  ras = rebase -i
+  rasm = rebase -i origin/HEAD
+  re = restore
+  ref = rev-parse
+  reword = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -I{} git commit --fixup=reword:{}"
+  s = status -s
+  sh = show
+[core]
+  excludesfile = ~/.config/git/ignore
+  pager = delta
+  editor = code --wait
+[interactive]
+  diffFilter = delta --color-only
+[log]
+  mailmap = true
+[commit]
+  template = ~/.dotfiles/config/git/commit_template
+  gpgsign = true
+  verbose = true
+[diff]
+  colorMoved = default
+[diff "gpg"]
+  textconv = gpg --quiet --no-tty --decrypt
+[pull]
+  ff = only
+[merge]
+  conflictstyle = diff3
+[rebase]
+  autosquash = true
+  autostash = true
+[fetch]
+  prune = true
+[delta]
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+  navigate = true
+  light = false
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
+[rerere]
+  enabled = true
+  autoupdate = true
